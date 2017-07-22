@@ -1,0 +1,31 @@
+{
+  "name": "inspecter-components",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "repository": "git@github.com:pankajpatel/inspecter-component.git",
+  "author": "Pankaj Patel <patel.pankaj@live.in>",
+  "license": "MIT",
+  "scripts": {
+    "generate": "babel src -d lib",
+    "watch": "webpack --progress --watch",
+    "build": "webpack --progress --production",
+    "story": "ascesis-storybook"
+  },
+  "dependencies": {
+    "@webcomponents/custom-elements": "^1.0.0"
+  },
+  "devDependencies": {
+    "ascesis-storybook": "holidaypirates/ascesis-storybook",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "css-loader": "^0.27.1",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.13.2",
+    "webpack": "^2.2.1"
+  }
+}
