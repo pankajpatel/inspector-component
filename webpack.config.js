@@ -4,12 +4,11 @@ var webpack = require('webpack');
 
 module.exports = {
   // devtool: 'eval-source-map',
-  entry: {
-    app: path.join(__dirname, 'src' , 'd-calendar/d-calendar.js')
-  },
+  entry: ["babel-polyfill", path.join(__dirname, 'src' , 'index.js')]
+  ,
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'd-calendar.js'
+    filename: 'inspector-component.js'
   },
   resolveLoader: {
     modules: [
@@ -30,7 +29,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: [/node_modules/],
         query: {
-          presets: ['es2015']
+          presets: ['es2015', 'stage-0'],
+          plugins: ["transform-object-rest-spread"]
         }
       }, {
         test: /.scss?$/,
@@ -48,22 +48,22 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin("css/[name].css"),
 
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        join_vars: true,
-        if_return: true
-      },
-      output: {
-        comments: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     screw_ie8: true,
+    //     conditionals: true,
+    //     unused: true,
+    //     comparisons: true,
+    //     sequences: true,
+    //     dead_code: true,
+    //     evaluate: true,
+    //     join_vars: true,
+    //     if_return: true
+    //   },
+    //   output: {
+    //     comments: false
+    //   }
+    // }),
   ]
 }

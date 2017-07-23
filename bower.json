@@ -1,0 +1,17 @@
+{
+  "name": "inspecter-component",
+  "version": "0.0.0",
+  "description": "Inspecter webcomponent based on react-inspector",
+  "license": "MIT",
+  "main": "dist/inspecter-component.js",
+  "keywords": [
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+    "custom-elements": "^1.0.3"
+  }
+}
