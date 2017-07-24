@@ -1,7 +1,10 @@
 class ThemeProvider extends HTMLElement {
-  constructor(theme = 'chromeLight') {
+  constructor() {
     super();
-    this.theme = theme;
+  }
+
+  connectedCallback() {
+    this.theme = this.getAttribute('theme') || 'chromeLight';
   }
 }
 customElements.define('theme-provider', ThemeProvider);

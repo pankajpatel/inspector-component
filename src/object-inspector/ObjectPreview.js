@@ -1,11 +1,13 @@
 require('./ObjectValue');
 require('./ObjectName');
+const toCss = require('../utils/inlineToStyle');
+const parse = require('../utils/parser');
 
 /* NOTE: Chrome console.log is italic */
 const styles = {
   preview: {
-    fontStyle: 'italic',
-  },
+    'font-style': 'italic'
+  }
 };
 
 /* intersperse arr with separator */
@@ -21,27 +23,39 @@ function intersperse(arr, sep) {
  * A preview of the object
  */
 class ObjectPreview extends HTMLElement {
-  constructor({ data, maxProperties = 5 }) {
+  constructor() {
     super();
-    const object = data;
+  }
 
+  connectedCallback() {
+    this.maxProperties = this.getAttribute('max-properties') || 5;
+    let object = this.getAttribute('data');
+    parse(object, data => this.object = data);
+    this.render();
+  }
+
+  render() {
+    this.innerHTML = this.markup(this.object, this.maxProperties) || '<!--nothing-->';
+  }
+
+  markup(object, maxProperties) {
     if (
       typeof object !== 'object' ||
       object === null ||
       object instanceof Date ||
       object instanceof RegExp
     ) {
-      return `<object-value object={object} ></object-value>`;
+      return `<object-value data='${object}' ></object-value>`;
     }
 
     if (Array.isArray(object)) {
       return (`
-        <span style=${styles.preview}>
+        <span style='${toCss(styles.preview)}'>
           [
           ${intersperse(
-            object.map((element, index) => `<object-value object=${element} ></object-value>`),
-            ', ',
-          )}
+            object.map((element, index) => `<object-value
+              class="1" data='${element}' ></object-value>`
+          ), ', ')}
           ]
         </span>
       `);
@@ -50,32 +64,26 @@ class ObjectPreview extends HTMLElement {
       for (let propertyName in object) {
         const propertyValue = object[propertyName];
         if (object.hasOwnProperty(propertyName)) {
-          let ellipsis;
+          let ellipsis = '';
           if (
             propertyNodes.length === maxProperties - 1 &&
             Object.keys(object).length > maxProperties
           ) {
-            ellipsis = `<span key=${'ellipsis'}>…</span>`;
+            ellipsis = `<span>…</span>`;
           }
-          propertyNodes.push(`
-            <span key=${propertyName}>
-              <object-name name=${propertyName} ></object-name>
-              :&nbsp;
-              <object-value object={propertyValue} ></object-value>
-              ${ellipsis}
-            </span>,
-          `);
-          if (ellipsis) break;
+          propertyNodes.push(`<span><object-name class="2" name='${propertyName}'
+            ></object-name>:&nbsp;<object-value class="4" data='${propertyValue}'
+            ></object-value>${ellipsis}</span>`);
+          if (ellipsis != '') break;
         }
       }
 
-      return (`
-        <span style=${styles.preview}>
-          ${`${object.constructor.name} {`}
-          ${intersperse(propertyNodes, ', ')}
-          ${'}'}
-        </span>
-      `);
+      const html = intersperse(propertyNodes, ', ');
+      return `<span
+        class="3"
+        style='${toCss(styles.preview)}'
+        >${`${object.constructor.name} {`} ${html.join('')} ${'}'}</
+          span>`;
     }
   }
 }

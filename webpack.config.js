@@ -48,22 +48,22 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin("css/[name].css"),
 
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     screw_ie8: true,
-    //     conditionals: true,
-    //     unused: true,
-    //     comparisons: true,
-    //     sequences: true,
-    //     dead_code: true,
-    //     evaluate: true,
-    //     join_vars: true,
-    //     if_return: true
-    //   },
-    //   output: {
-    //     comments: false
-    //   }
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        join_vars: true,
+        if_return: true
+      },
+      output: {
+        comments: false
+      }
+    }),
   ]
 }

@@ -2,19 +2,21 @@ require('./ObjectName');
 require('./ObjectPreview');
 
 class ObjectRootLabel extends HTMLElement {
-  constructor({name, data}) {
+  constructor() {
     super();
-    if (typeof name === 'string') {
-    this.innerHTML = (`
-        <span>
-          <object-name name=${name}></object-name>
+  }
+
+  connectedCallback() {
+    const name = this.getAttribute('name') || 'undefined';
+    const data = this.getAttribute('data');
+
+    this.innerHTML = typeof name === 'string'
+      ? `<span>
+          <object-name name='${name}'></object-name>
           <span>: </span>
-          <object-preview data=${data} ></object-preview>
-        </span>
-      `);
-    } else {
-      this.innerHTML = `<object-preview data=${data} ></object-preview>`;
-    }
+          <object-preview data='${data}' ></object-preview>
+        </span>`
+      : `<object-preview data='${data}' ></object-preview>`;
   }
 }
 

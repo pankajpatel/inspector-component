@@ -1,17 +1,24 @@
-import ObjectName from './ObjectName';
-import ObjectValue from './ObjectValue';
+const ObjectName = require('./ObjectName');
+const ObjectValue = require('./ObjectValue');
 
 /**
  * if isNonenumerable is specified, render the name dimmed
  */
 class ObjectLabel extends HTMLElement {
-  constructor(name, data, isNonenumerable = false) {
+  constructor() {
     super();
+  }
+
+  connectedCallback() {
+    const name = this.getAttribute('name') || undefined;
+    const data = this.getAttribute('data') || {};
+    const isNonenumerable = this.getAttribute('is-non-enumerable') || false;
+
     this.innerHTML = `
       <span>
-        <object-name name=${name} dimmed=${isNonenumerable}></object-name>
+        <object-name name='${name}' dimmed='${isNonenumerable}'></object-name>
         <span>: </span>
-        <object-value object=${JSON.stringify(data)} ></object-value>
+        <object-value data='${data}' ></object-value>
       </span>
     `;
   }

@@ -11,19 +11,29 @@ const toCss = require('../utils/inlineToStyle');
  * the property name will be dimmed to show the difference.
  */
 class ObjectLabel extends HTMLElement {
-  constructor({ name, dimmed = false, styles }, { theme }) {
+  constructor() {
     super();
-    const themeStyles = createStyles('ObjectName', theme);
-    const appliedStyles = { ...themeStyles.base,
+  }
+
+  connectedCallback() {
+    this.name = this.getAttribute('name') || 'undefined';
+    const object = this.getAttribute('data');
+    this.theme = this.getAttribute('theme') || 'chromeLight';
+    const dimmed = this.getAttribute('dimmed') || false;
+    const styles = this.getAttribute('styles') || {};
+    const themeStyles = createStyles('ObjectName', this.theme);
+
+    const appliedStyles = {
+      ...themeStyles.base,
       ...(dimmed ? themeStyles['dimmed'] : {}),
       ...styles,
     };
 
-    this.innerHTML = `
-      <span style=${toCss(appliedStyles)}>
-        ${name}
-      </span>
-    `;
+    this.render(this.name, appliedStyles);
+  }
+
+  render(name, appliedStyles) {
+    this.innerHTML = `<span style='${toCss(appliedStyles)}'>${name}</span>`;
   }
 }
 customElements.define('object-name', ObjectLabel);

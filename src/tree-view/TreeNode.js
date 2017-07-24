@@ -1,17 +1,21 @@
 const createStyles = require('../styles/createStyles');
 const toCss = require('../utils/inlineToStyle');
+
 const Arrow = ({ expanded, styles }) => `<span style=${toCss({ ...styles.base, ...(expanded ? styles.expanded : styles.collapsed) })}>▶</span>`;
 
 class TreeNode extends HTMLElement {
-  constructor(
-    name = undefined,
-    data = undefined,
-    expanded = true,
-    onClick = () => {},
-    nodeRenderer = ({ name }) => `<span>${name}</span>`,
-    title,
-    shouldShowArrow = false,
-    shouldShowPlaceholder = true) {
+  constructor() {
+    super();
+  }
+  connectedCallback(){
+    // name = undefined,
+    // data = undefined,
+    // expanded = true,
+    // onClick = () => {},
+    // nodeRenderer = ({ name }) => `<span>${name}</span>`,
+    // title,
+    // shouldShowArrow = false,
+    // shouldShowPlaceholder = true
 
     super();
     const { theme } = this.context;

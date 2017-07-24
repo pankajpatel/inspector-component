@@ -17,4 +17,4 @@ const createStyles = (key, theme) => {
   return styles['chromeLight'][key];
 };
 
-export default createStyles;
+module.exports = createStyles;
