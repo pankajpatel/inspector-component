@@ -1,14 +1,12 @@
 require('./TreeNode');
-require('./ObjectRootLabel');
-require('./ObjectLabel');
+require('../object-inspector/ObjectRootLabel');
+require('../object-inspector/ObjectLabel');
 
 const parse = require('../utils/parser');
 const { hasChildNodes } = require('./pathUtils');
 const createIterator = require('../utils/createIterator');
 
 const { DEFAULT_ROOT_PATH, getExpandedPaths } = require('./pathUtils');
-
-const dataIterator = createIterator(showNonenumerable, sortObjectKeys);
 
 const defaultNodeRenderer = (depth, name, data, isNonenumerable) =>
   depth === 0
@@ -35,14 +33,20 @@ class ConnectedTreeNode extends HTMLElement {
   constructor() {
     super();
   }
-  constructor() {
-    //name, data, dataIterator, expanded, path, depth, nodeRenderer, ...rest
+  connectedCallback() {
+    //path, nodeRenderer, ...rest
+    this.name = this.getAttribute('name') || undefined;
+    this.expanded = this.getAttribute('expanded') || true;
+    this.depth = this.getAttribute('depth') || 0;
+    this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
+    this.sortObjectKeys = this.getAttribute('sort-object-keys') || true;
     const data = parse(this.getAttribute('data') || 'null');
+    this.dataIterator = createIterator(this.showNonenumerable || false, this.sortObjectKeys);
     this.render(data);
   }
 
   render(data) {
-    const nodeHasChildNodes = hasChildNodes(data, dataIterator);
+    const nodeHasChildNodes = hasChildNodes(data, this.dataIterator);
     const { expandedPaths } = this.state;
     const expanded = !!expandedPaths[path];
     const renderer = defaultNodeRenderer;

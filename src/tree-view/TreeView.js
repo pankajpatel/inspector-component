@@ -1,4 +1,6 @@
 require('./ConnectedTreeNode')
+const parse = require('../utils/parser');
+const { DEFAULT_ROOT_PATH, getExpandedPaths } = require('./pathUtils');
 
 class TreeView extends HTMLElement {
   constructor() {
@@ -6,6 +8,7 @@ class TreeView extends HTMLElement {
   }
   connectedCallback() {
     this.name = this.getAttribute('name') || undefined;
+    const data = this.getAttribute('data') || 'null';
     this.expandedPaths = this.getAttribute('expanded-paths') || [];
     this.expandLevel = this.getAttribute('expand-level') || 0;
     //data, dataIterator, nodeRenderer
@@ -20,19 +23,16 @@ class TreeView extends HTMLElement {
       },
     };
     const render = () => {
-      const { name, data, dataIterator } = this.props;
-      const { nodeRenderer } = this.props;
-
       const rootPath = DEFAULT_ROOT_PATH;
 
       return (`
         <connected-tree-node
-          name='${name}'
-          data='${data}'
-          dataIterator='${dataIterator}'
+          name='${this.name}'
+          data='${this.data}'
+          dataIterator='${dataIterator || ''}'
           depth='0'
           path='${rootPath}'
-          nodeRenderer='${nodeRenderer}'
+          nodeRenderer='${nodeRenderer || ''}'
         ></connected-tree-node>
       `);
     }
