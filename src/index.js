@@ -8,6 +8,7 @@ class Inspector extends HTMLElement {
 
   connectedCallback(){
     this._data = this.getAttribute('data')
+    this.removeAttribute('data');
     this.innerHTML = `<object-inspector
       data='${this._data}'
       theme='chromeLight'

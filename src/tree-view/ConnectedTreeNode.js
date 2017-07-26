@@ -18,13 +18,18 @@ class ConnectedTreeNode extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.name = this.getAttribute('name') || undefined;
+    this.name = this.getAttribute('name') || '';
     this.path = this.getAttribute('path') || DEFAULT_ROOT_PATH;
     this.expanded = this.getAttribute('expanded') || true;
     this.depth = this.getAttribute('depth') || 0;
     this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
     this.sortObjectKeys = this.getAttribute('sort-object-keys');
-    const data = parse(this.getAttribute('data') || 'null', () => {});this.state = {
+    this._data = (this.getAttribute('data') || 'null');
+    const data = parse(this._data);
+    this.data = data;
+    this.removeAttribute('data');
+
+    this.state = {
       expandedPaths: {}
     }
     this.render(data);
@@ -42,20 +47,23 @@ class ConnectedTreeNode extends HTMLElement {
         show-non-enumerable='${this.showNonenumerable}'
         sort-object-keys='${this.sortObjectKeys}'
         should-show-placeholder=${this.depth > 0} >
-        ${expanded ? this.renderChildNodes(data, this.path) : undefined}
+        ${expanded ? this.renderChildNodes(data, this.path) : ''}
       </tree-node>`;
   }
 
   renderChildNodes(parentData, parentPath) {
     let childNodes = [];
-    for (let { name, data, ...props } of dataIterator(parentData)) {
+    console.log(parentData)
+    for (let item of dataIterator(parentData)) {
+      console.log(item);
+      let { name, data } = item;
       const key = name;
       const path = `${parentPath}.${key}`;
       childNodes.push(`
         <connected-tree-node
           name='${name}'
           data='${data}'
-          depth='${depth + 1}'
+          depth='${this.depth + 1}'
           path='${path}'
           show-non-enumerable='${this.showNonenumerable}'
           sort-object-keys='${this.sortObjectKeys}'

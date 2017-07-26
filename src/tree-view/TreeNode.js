@@ -1,27 +1,41 @@
 const createStyles = require('../styles/createStyles');
 const toCss = require('../utils/inlineToStyle');
 const parse = require('../utils/parser');
-const Arrow = ({ expanded, styles }) => `<span
-  style='${toCss({ ...styles.base, ...(expanded ? styles.expanded : styles.collapsed) })}'>▶</span>`;
+
+class Arrow extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback(){
+    const expanded = (this.getAttribute('expanded') || false);
+    const styles = JSON.parse(this.getAttribute('styles') || '{}') || {};
+    this.removeAttribute('styles')
+    console.log(styles, expanded)
+    this.innerHTML = `<span style='${toCss({
+        ...styles.base,
+        ...((expanded === true || expanded === 'true') ? styles.expanded : styles.collapsed)
+      })}'>▶</span>`;
+  }
+}
+
+customElements.define('tree-arrow', Arrow);
 
 class TreeNode extends HTMLElement {
   constructor() {
     super();
   }
   connectedCallback(){
-
-    // onClick = () => {},
     const nodeRenderer = ({ name }, props) => {
-      // Array.prototype.slice.call( props )
-      //   .forEach((p) => {
-
-      //   });
       return `<span>${name}</span>`;
     }
 
-    const data = parse(this.getAttribute('data') || 'null', () => {});
+    this._data = (this.getAttribute('data') || 'null');
+    const data = parse(this._data);
+    this.data = data;
+    this.removeAttribute('data');
+
     this.title = this.getAttribute('title') || '';
-    this.name = this.getAttribute('name') || undefined;
+    this.name = this.getAttribute('name') || '';
     this.theme = this.getAttribute('theme') || 'chromeLight';
     this.expanded = this.getAttribute('expanded') || true;
     this.shouldShowArrow = this.getAttribute('should-show-arrow') || false;
@@ -31,23 +45,24 @@ class TreeNode extends HTMLElement {
 
     // console.log(nodeRenderer, this.attributes)
     const renderedNode = (nodeRenderer(this));
-    const childNodes = this.expanded ? this.innerHTML : undefined;
+    const childNodes = this.expanded ? this.innerHTML : '';
 
     this.innerHTML = (`
       <li aria-expanded='${this.expanded}' role="treeitem" style='${toCss(styles.treeNodeBase)}' title='${this.title}'>
         <div style='${toCss(styles.treeNodePreviewContainer)}' class="clickableNode">
           ${this.shouldShowArrow || this.innerHTML.length > 0
-            ? `<Arrow expanded='${this.expanded}' styles='${styles.treeNodeArrow}' />`
-            : this.shouldShowPlaceholder && `<span style='${toCss(styles.treeNodePlaceholder)}'>&nbsp;</span>`}
+            ? `<tree-arrow expanded='${this.expanded}' styles='${JSON.stringify(styles.treeNodeArrow)}'></tree-arrow>`
+            : (this.shouldShowPlaceholder === true || this.shouldShowPlaceholder === 'true') && `<span style='${toCss(styles.treeNodePlaceholder)}'>&nbsp;</span>`}
           ${renderedNode}
         </div>
-
-        <ol role="group" style='${toCss(styles.treeNodeChildNodesContainer)}'>
-          ${childNodes}
-        </ol>
+        ${childNodes.trim().length > 0
+          ? `<ol role="group"
+              style='${toCss(styles.treeNodeChildNodesContainer)}'>${childNodes}</ol>`
+          : ''}
       </li>
     `);
   }
 }
+
 
 customElements.define('tree-node', TreeNode);

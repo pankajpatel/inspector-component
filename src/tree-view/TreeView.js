@@ -23,8 +23,12 @@ class TreeView extends HTMLElement {
     super();
   }
   connectedCallback() {
-    this.name = this.getAttribute('name') || undefined;
-    const data = this.getAttribute('data') || 'null';
+    this.name = this.getAttribute('name') || '';
+    this._data = (this.getAttribute('data') || 'null');
+    const data = parse(this._data);
+    this.data = data;
+    this.removeAttribute('data');
+
     this.expandedPaths = this.getAttribute('expanded-paths') || [];
     this.expandLevel = this.getAttribute('expand-level') || 0;
     this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;

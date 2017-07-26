@@ -1,3 +1,4 @@
+const changeCase = require('param-case');
 class Css {
   static of (json) {
     const selectors = Object.keys(json)
@@ -11,12 +12,12 @@ class Css {
           }).join(';')
           return `${selector}{${result}}`;
         } else {
-          return `${selector}: ${definition}`;
+          return `${changeCase(selector)}: ${definition};`;
         }
       } else {
         return '';
       }
-    }).join('\n')
+    }).filter(item => item.trim() !== '').join('\n')
   }
 }
 
