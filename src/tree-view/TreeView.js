@@ -1,6 +1,22 @@
 require('./ConnectedTreeNode')
 const parse = require('../utils/parser');
-const { DEFAULT_ROOT_PATH, getExpandedPaths } = require('./pathUtils');
+const { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } = require('./pathUtils');
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'TOGGLE_EXPAND': {
+      const path = action.path;
+      const expandedPaths = state.expandedPaths;
+      const expanded = !!expandedPaths[path];
+
+      return Object.assign({}, state, {
+        expandedPaths: Object.assign({}, state.expandedPaths, { [path]: !expanded }),
+      });
+    }
+    default:
+      return state;
+  }
+};
 
 class TreeView extends HTMLElement {
   constructor() {
@@ -11,45 +27,41 @@ class TreeView extends HTMLElement {
     const data = this.getAttribute('data') || 'null';
     this.expandedPaths = this.getAttribute('expanded-paths') || [];
     this.expandLevel = this.getAttribute('expand-level') || 0;
-    //data, dataIterator, nodeRenderer
+    this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
+    this.sortObjectKeys = this.getAttribute('sort-object-keys');
+
     this.store = {
       storeState: {
         expandedPaths: getExpandedPaths(
           data,
-          dataIterator,
-          expandPaths,
-          expandLevel,
+          this.expandPaths,
+          this.expandLevel,
         ),
       },
     };
-    const render = () => {
-      const rootPath = DEFAULT_ROOT_PATH;
-
-      return (`
-        <connected-tree-node
-          name='${this.name}'
-          data='${this.data}'
-          dataIterator='${dataIterator || ''}'
-          depth='0'
-          path='${rootPath}'
-          nodeRenderer='${nodeRenderer || ''}'
-        ></connected-tree-node>
-      `);
-    }
+    this.render();
+    Array.prototype.slice.call(this.querySelectorAll('.clickableNode'))
+      .forEach(element => {
+        let p = element.getAttribute('path');
+        this.store.storeState = reducer(this.store.storeState, {
+          type: 'TOGGLE_EXPAND',
+          path: p,
+        })
+      });
   }
+  render() {
+    const rootPath = DEFAULT_ROOT_PATH;
 
-  componentWillReceiveProps(nextProps) {
-    this.store = {
-      storeState: {
-        expandedPaths: getExpandedPaths(
-          nextProps.data,
-          nextProps.dataIterator,
-          nextProps.expandPaths,
-          nextProps.expandLevel,
-          this.store.storeState.expandedPaths,
-        ),
-      },
-    };
+    this.innerHTML = `
+      <connected-tree-node
+        name='${this.name}'
+        data='${this.data}'
+        depth='0'
+        path='${rootPath}'
+        show-non-enumerable='${this.showNonenumerable}'
+        sort-object-keys='${this.sortObjectKeys}'
+      ></connected-tree-node>
+    `;
   }
 
 }

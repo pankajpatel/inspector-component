@@ -23,7 +23,7 @@ module.exports = (object, callback) => {
       data = number(object);
     }
   } finally {
-    callback(data);
+    callback ? callback(data) : () => {};
   }
   return data;
 }

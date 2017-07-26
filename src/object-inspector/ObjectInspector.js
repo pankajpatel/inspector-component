@@ -19,6 +19,7 @@ class ObjectInspector extends HTMLElement {
         <tree-view
           theme='${theme}'
           show-non-enumerable='${showNonenumerable}'
+          sort-object-keys='${sortObjectKeys}'
           ></tree-view>
       </theme-provider>
     `;
