@@ -24,6 +24,7 @@ class ConnectedTreeNode extends HTMLElement {
     this.depth = this.getAttribute('depth') || 0;
     this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
     this.sortObjectKeys = this.getAttribute('sort-object-keys');
+
     this._data = (this.getAttribute('data') || 'null');
     const data = parse(this._data);
     this.data = data;
@@ -37,8 +38,10 @@ class ConnectedTreeNode extends HTMLElement {
 
   render(data) {
     const nodeHasChildNodes = hasChildNodes(data, createIterator(this.showNonenumerable , this.sortObjectKeys));
+    console.log(nodeHasChildNodes)
     const { expandedPaths } = this.state;
-    const expanded = !!expandedPaths[this.path];
+    // const expanded = !!expandedPaths[this.path];
+    const expanded = true
     const renderer = defaultNodeRenderer;
 
     this.innerHTML = `<tree-node
@@ -47,13 +50,15 @@ class ConnectedTreeNode extends HTMLElement {
         show-non-enumerable='${this.showNonenumerable}'
         sort-object-keys='${this.sortObjectKeys}'
         should-show-placeholder=${this.depth > 0} >
-        ${expanded ? this.renderChildNodes(data, this.path) : ''}
+        ${expanded && Object.keys(data).length > 0 ? this.renderChildNodes(this.data, this.path) : ''}
       </tree-node>`;
   }
 
   renderChildNodes(parentData, parentPath) {
+    debugger
     let childNodes = [];
     console.log(parentData)
+    const dataIterator = createIterator(this.showNonenumerable , this.sortObjectKeys);
     for (let item of dataIterator(parentData)) {
       console.log(item);
       let { name, data } = item;
@@ -62,7 +67,7 @@ class ConnectedTreeNode extends HTMLElement {
       childNodes.push(`
         <connected-tree-node
           name='${name}'
-          data='${data}'
+          data='${JSON.stringify(data)}'
           depth='${this.depth + 1}'
           path='${path}'
           show-non-enumerable='${this.showNonenumerable}'

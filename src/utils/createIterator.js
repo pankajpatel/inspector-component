@@ -23,6 +23,7 @@ module.exports = (showNonenumerable, sortObjectKeys) => {
       }
     } else {
       const keys = Object.getOwnPropertyNames(data);
+      debugger
       if (sortObjectKeys === true) {
         keys.sort();
       } else if (typeof sortObjectKeys === 'function') {

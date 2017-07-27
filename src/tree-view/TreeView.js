@@ -59,7 +59,7 @@ class TreeView extends HTMLElement {
     this.innerHTML = `
       <connected-tree-node
         name='${this.name}'
-        data='${this.data}'
+        data='${this._data}'
         depth='0'
         path='${rootPath}'
         show-non-enumerable='${this.showNonenumerable}'
