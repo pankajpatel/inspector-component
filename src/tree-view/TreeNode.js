@@ -2,6 +2,11 @@ const createStyles = require('../styles/createStyles');
 const toCss = require('../utils/inlineToStyle');
 const parse = require('../utils/parser');
 
+const defaultNodeRenderer = ({depth, name, data, isNonenumerable}) =>
+  depth === 0
+    ? `<object-root-label name='${name !== undefined ? name : '' }' data='${data}' ></object-root-label>`
+    : `<object-label name='${name !== undefined ? name : '' }' data='${data}' isNonenumerable='${isNonenumerable}' ></object-label>`;
+
 class Arrow extends HTMLElement {
   constructor() {
     super();
@@ -25,9 +30,7 @@ class TreeNode extends HTMLElement {
     super();
   }
   connectedCallback(){
-    const nodeRenderer = ({ name }, props) => {
-      return `<span>${name}</span>`;
-    }
+    const nodeRenderer = defaultNodeRenderer || (({ name }) => `<span>${name}</span>`);
 
     this._data = (this.getAttribute('data') || 'null');
     const data = parse(this._data);

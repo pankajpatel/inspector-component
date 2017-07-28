@@ -45,6 +45,8 @@ class ConnectedTreeNode extends HTMLElement {
     const renderer = defaultNodeRenderer;
 
     this.innerHTML = `<tree-node
+        name='${this.name}'
+        data='${this._data}'
         expanded='${expanded}'
         should-show-arrow='${nodeHasChildNodes}'
         show-non-enumerable='${this.showNonenumerable}'
@@ -55,7 +57,6 @@ class ConnectedTreeNode extends HTMLElement {
   }
 
   renderChildNodes(parentData, parentPath) {
-    debugger
     let childNodes = [];
     console.log(parentData)
     const dataIterator = createIterator(this.showNonenumerable , this.sortObjectKeys);
@@ -75,7 +76,7 @@ class ConnectedTreeNode extends HTMLElement {
         ></connected-tree-node>`,
       );
     }
-    return childNodes;
+    return childNodes.join('');
   }
 }
 
