@@ -10,15 +10,15 @@ class ObjectLabel extends HTMLElement {
   }
 
   connectedCallback() {
-    const name = this.getAttribute('name') || undefined;
+    const name = this.getAttribute('name') || '';
     const data = this.getAttribute('data') || {};
     const isNonenumerable = this.getAttribute('is-non-enumerable') || false;
 
     this.innerHTML = `
       <span>
-        <object-name name='${name}' dimmed='${isNonenumerable}'></object-name>
-        <span>: </span>
-        <object-value data='${data}' ></object-value>
+        ${name !== '' ? `<object-name name='${name}' dimmed='${isNonenumerable}'></object-name>
+        <span>: </span>` : ''}
+        <object-value data='${JSON.stringify(data)}' ></object-value>
       </span>
     `;
   }

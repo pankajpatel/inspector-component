@@ -19,7 +19,7 @@ class ObjectLabel extends HTMLElement {
     this.name = this.getAttribute('name') || 'undefined';
     const object = this.getAttribute('data');
     this.theme = this.getAttribute('theme') || 'chromeLight';
-    const dimmed = this.getAttribute('dimmed') || false;
+    const dimmed = this.getAttribute('dimmed') === 'true' ? true : false;
     const styles = this.getAttribute('styles') || {};
     const themeStyles = createStyles('ObjectName', this.theme);
 

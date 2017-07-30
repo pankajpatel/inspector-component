@@ -10,8 +10,8 @@ class ObjectInspector extends HTMLElement {
   }
 
   connectedCallback() {
-    const showNonenumerable = this.getAttribute('show-non-enumerable') || false;
-    const sortObjectKeys = this.getAttribute('sort-object-keys');
+    const showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
+    const sortObjectKeys = this.getAttribute('sort-object-keys') == 'true' ? true : false;
     const theme = this.getAttribute('theme') || 'chromeLight';
     this._data = this.getAttribute('data') || '{}';
     this.removeAttribute('data');

@@ -29,13 +29,16 @@ class ObjectPreview extends HTMLElement {
 
   connectedCallback() {
     this.maxProperties = this.getAttribute('max-properties') || 5;
-    let object = this.getAttribute('data');
-    parse(object, data => this.object = data);
+    this._data = (this.getAttribute('data') || 'null');
+    const data = parse(this._data);
+    this.data = data;
+    this.removeAttribute('data');
+
     this.render();
   }
 
   render() {
-    this.innerHTML = this.markup(this.object, this.maxProperties) || '<!--nothing-->';
+    this.innerHTML = this.markup(this.data, this.maxProperties) || '<!--nothing-->';
   }
 
   markup(object, maxProperties) {
@@ -45,7 +48,7 @@ class ObjectPreview extends HTMLElement {
       object instanceof Date ||
       object instanceof RegExp
     ) {
-      return `<object-value data='${object}' ></object-value>`;
+      return `<object-value data='${this._data}' ></object-value>`;
     }
 
     if (Array.isArray(object)) {

@@ -20,7 +20,7 @@ module.exports = (object, callback) => {
           data = object;
       }
     } else {
-      data = number(object);
+      data = Number(object);
     }
   } finally {
     callback ? callback(data) : () => {};

@@ -8,15 +8,16 @@ class ObjectRootLabel extends HTMLElement {
 
   connectedCallback() {
     const name = this.getAttribute('name') || 'undefined';
-    const data = this.getAttribute('data');
+    this._data = (this.getAttribute('data') || 'null');
+    this.removeAttribute('data');
 
     this.innerHTML = typeof name === 'string'
       ? `<span>
           <object-name name='${name}'></object-name>
           <span>: </span>
-          <object-preview data='${data}' ></object-preview>
+          <object-preview data='${this._data}' ></object-preview>
         </span>`
-      : `<object-preview data='${data}' ></object-preview>`;
+      : `<object-preview data='${this._data}' ></object-preview>`;
   }
 }
 

@@ -1,6 +1,5 @@
 require('document-register-element');
 require('./object-inspector/ObjectInspector');
-
 class Inspector extends HTMLElement {
   constructor() {
     super();
@@ -9,9 +8,19 @@ class Inspector extends HTMLElement {
   connectedCallback(){
     this._data = this.getAttribute('data')
     this.removeAttribute('data');
-    this.innerHTML = `<object-inspector
+    this.innerHTML = `
+    <style>
+      tree-node li .child-nodes{
+        display: none;
+      }
+      tree-node[expanded="true"] li .child-nodes{
+        display: block;
+      }
+    </style>
+    <object-inspector
       data='${this._data}'
       theme='chromeLight'
+      show-non-enumerable="false"
       sort-object-keys='true' ></object-inspector>`;
   }
 }
