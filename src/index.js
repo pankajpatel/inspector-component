@@ -10,10 +10,10 @@ class Inspector extends HTMLElement {
     this.removeAttribute('data');
     this.innerHTML = `
     <style>
-      tree-node li .child-nodes{
+      tree-node .child-nodes{
         display: none;
       }
-      tree-node[expanded="true"] li .child-nodes{
+      tree-node[expanded="true"] > li > .child-nodes{
         display: block;
       }
     </style>

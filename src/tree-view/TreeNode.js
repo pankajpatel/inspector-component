@@ -11,13 +11,27 @@ class Arrow extends HTMLElement {
   constructor() {
     super();
   }
+  static get observedAttributes() {
+    return ['expanded'];
+  }
+  attributeChangedCallback(attr, oldValue, newValue) {
+    if (attr == 'expanded' && newValue != oldValue) {
+      let span = this.querySelector('span')
+      if(span){
+        span.setAttribute('style', toCss({
+          ...this.styles.base,
+          ...(newValue === true || newValue === 'true' ? this.styles.expanded : this.styles.collapsed)
+        }));
+      }
+    }
+  }
   connectedCallback(){
     const expanded = this.getAttribute('expanded') == 'true' ? true : false;
-    const styles = JSON.parse(this.getAttribute('styles') || '{}') || {};
+    this.styles = JSON.parse(this.getAttribute('styles') || '{}') || {};
     this.removeAttribute('styles')
     this.innerHTML = `<span style='${toCss({
-        ...styles.base,
-        ...(expanded === true ? styles.expanded : styles.collapsed)
+        ...this.styles.base,
+        ...(expanded === true ? this.styles.expanded : this.styles.collapsed)
       })}'>▶</span>`;
   }
 }
@@ -50,9 +64,6 @@ class TreeNode extends HTMLElement {
     const renderedNode = (nodeRenderer(this));
     const childNodes = this.innerHTML;
     // const childNodes = this.expanded ? this.innerHTML : '';
-
-    console.log('this.innerHTML', this.innerHTML)
-    console.log('renderedNode', renderedNode)
 
     this.innerHTML = (`
       <li aria-expanded='${this.expanded}' role="treeitem" style='${toCss(styles.treeNodeBase)}' title='${this.title}'>

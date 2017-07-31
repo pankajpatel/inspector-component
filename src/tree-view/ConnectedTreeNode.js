@@ -39,7 +39,7 @@ class ConnectedTreeNode extends HTMLElement {
     this.depth = parseInt(this.getAttribute('depth') || 0);
     this.expanded = this.getAttribute('expanded') == 'true' ? true : false;
     this.isNonenumerable = this.getAttribute('is-nonenumerable') == 'true' ? true : false;
-    this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
+    this.showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
     this.sortObjectKeys = this.getAttribute('sort-object-keys');
 
     this._data = (this.getAttribute('data') || 'null');
@@ -55,10 +55,13 @@ class ConnectedTreeNode extends HTMLElement {
     Array.prototype.slice.call(this.querySelectorAll('tree-node'))
       .forEach(element => {
         element.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
           let p = element.getAttribute('path');
           this.state.expandedPaths[p] = !this.state.expandedPaths[p];
           element.expanded = !element.expanded
           element.setAttribute('expanded', element.expanded);
+          element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
         })
       });
   }
@@ -95,6 +98,7 @@ class ConnectedTreeNode extends HTMLElement {
           data='${JSON.stringify(data)}'
           depth='${this.depth + 1}'
           path='${path}'
+          should-show-arrow='${isNonenumerable || false}'
           show-non-enumerable='${this.showNonenumerable ? this.showNonenumerable : isNonenumerable}'
           sort-object-keys='${this.sortObjectKeys}'
         ></connected-tree-node>`,
