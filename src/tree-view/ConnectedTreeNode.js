@@ -40,7 +40,7 @@ class ConnectedTreeNode extends HTMLElement {
     this.expanded = this.getAttribute('expanded') == 'true' ? true : false;
     this.isNonenumerable = this.getAttribute('is-nonenumerable') == 'true' ? true : false;
     this.showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
-    this.sortObjectKeys = this.getAttribute('sort-object-keys');
+    this.sortObjectKeys = this.getAttribute('sort-object-keys') == 'true' ? true : false;
 
     this._data = (this.getAttribute('data') || 'null');
     const data = parse(this._data);

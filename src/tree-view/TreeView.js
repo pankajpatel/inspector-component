@@ -1,5 +1,6 @@
 require('./ConnectedTreeNode')
 const parse = require('../utils/parser');
+const createIterator = require('../utils/createIterator');
 const { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } = require('./pathUtils');
 
 const reducer = (state, action) => {
@@ -31,13 +32,14 @@ class TreeView extends HTMLElement {
 
     this.expandedPaths = this.getAttribute('expanded-paths') || [];
     this.expandLevel = this.getAttribute('expand-level') || 0;
-    this.showNonenumerable = this.getAttribute('show-non-enumerable') || false;
-    this.sortObjectKeys = this.getAttribute('sort-object-keys');
+    this.showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
+    this.sortObjectKeys = this.getAttribute('sort-object-keys') == 'true' ? true : false;
 
     this.store = {
       storeState: {
         expandedPaths: getExpandedPaths(
           data,
+          createIterator(this.showNonenumerable, this.sortObjectKeys),
           this.expandPaths,
           this.expandLevel,
         ),
