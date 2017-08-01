@@ -63,12 +63,11 @@ class TreeNode extends HTMLElement {
     const styles = createStyles('TreeNode', this.theme);
     const renderedNode = (nodeRenderer(this));
     const childNodes = this.innerHTML;
-    // const childNodes = this.expanded ? this.innerHTML : '';
 
     this.innerHTML = (`
       <li aria-expanded='${this.expanded}' role="treeitem" style='${toCss(styles.treeNodeBase)}' title='${this.title}'>
         <div style='${toCss(styles.treeNodePreviewContainer)}' path='${this.path}' class="clickableNode">
-          ${this.shouldShowArrow || this.innerHTML.length > 0
+          ${this.shouldShowArrow && childNodes.length > 0
             ? `<tree-arrow expanded='${this.expanded}' styles='${JSON.stringify(styles.treeNodeArrow)}'></tree-arrow>`
             : (this.shouldShowPlaceholder) && `<span style='${toCss(styles.treeNodePlaceholder)}'>&nbsp;</span>`}
           ${renderedNode}
