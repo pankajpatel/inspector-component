@@ -46,17 +46,6 @@ class TreeView extends HTMLElement {
       },
     };
     this.render();
-    Array.prototype.slice.call(this.querySelectorAll('.clickableNode'))
-      .forEach(element => {
-        element.addEventListener('click', (e) => {
-          let p = element.getAttribute('path');
-          console.log(p, element)
-          this.store.storeState = reducer(this.store.storeState, {
-            type: 'TOGGLE_EXPAND',
-            path: p,
-          })
-        })
-      });
   }
   render() {
     const rootPath = DEFAULT_ROOT_PATH;

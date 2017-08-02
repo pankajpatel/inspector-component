@@ -19,9 +19,7 @@ class Inspector extends HTMLElement {
     </style>
     <object-inspector
       data='${this._data}'
-      theme='chromeLight'
-      show-non-enumerable="false"
-      sort-object-keys='true' ></object-inspector>`;
+      theme='chromeLight' ></object-inspector>`;
   }
 }
 customElements.define('inspector-component', Inspector);

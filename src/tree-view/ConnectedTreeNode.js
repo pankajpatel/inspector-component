@@ -52,18 +52,20 @@ class ConnectedTreeNode extends HTMLElement {
     }
     this.render(data);
 
-    Array.prototype.slice.call(this.querySelectorAll('tree-node'))
-      .forEach(element => {
-        element.addEventListener('click', (e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          let p = element.getAttribute('path');
-          this.state.expandedPaths[p] = !this.state.expandedPaths[p];
-          element.expanded = !element.expanded
-          element.setAttribute('expanded', element.expanded);
-          element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
-        })
-      });
+
+    let element = this.querySelector('tree-node')
+    const handler = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      let p = element.getAttribute('path');
+      this.state.expandedPaths[p] = !this.state.expandedPaths[p];
+      element.expanded = !element.expanded
+      debugger
+      element.setAttribute('expanded', element.expanded);
+      element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
+    };
+    element.removeEventListener('click', handler);
+    element.addEventListener('click', handler);
   }
 
   render(data) {
