@@ -55,10 +55,10 @@ class ObjectPreview extends HTMLElement {
       return (`
         <span style='${toCss(styles.preview)}'>
           [
-          ${intersperse(
+          ${
             object.map((element, index) => `<object-value
               class="1" data='${element}' ></object-value>`
-          ), ', ')}
+          ).join(', ')}
           ]
         </span>
       `);
@@ -83,7 +83,6 @@ class ObjectPreview extends HTMLElement {
 
       const html = intersperse(propertyNodes, ', ');
       return `<span
-        class="3"
         style='${toCss(styles.preview)}'
         >${`${object.constructor.name} {`} ${html.join('')} ${'}'}</
           span>`;

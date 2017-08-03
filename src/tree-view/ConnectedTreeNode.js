@@ -8,11 +8,6 @@ const createIterator = require('../utils/createIterator');
 
 const { DEFAULT_ROOT_PATH, getExpandedPaths } = require('./pathUtils');
 
-const defaultNodeRenderer = (depth, name, data, isNonenumerable) =>
-  depth === 0
-    ? `<object-root-label name='${name}' data='${data}' ></object-root-label>`
-    : `<object-label name='${name}' data='${data}' isNonenumerable='${isNonenumerable}' ></object-label>`;
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'TOGGLE_EXPAND': {
@@ -60,7 +55,6 @@ class ConnectedTreeNode extends HTMLElement {
       let p = element.getAttribute('path');
       this.state.expandedPaths[p] = !this.state.expandedPaths[p];
       element.expanded = !element.expanded
-      debugger
       element.setAttribute('expanded', element.expanded);
       element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
     };
@@ -72,13 +66,13 @@ class ConnectedTreeNode extends HTMLElement {
     const nodeHasChildNodes = hasChildNodes(data, createIterator(this.showNonenumerable , this.sortObjectKeys));
     const { expandedPaths } = this.state;
     const expanded = !!expandedPaths[this.path];
-    const renderer = defaultNodeRenderer;
 
     this.innerHTML = `<tree-node
         name='${this.name}'
         path='${this.path}'
         data='${this._data}'
         expanded='${expanded}'
+        depth='${this.depth}'
         should-show-arrow='${nodeHasChildNodes}'
         show-non-enumerable='${this.showNonenumerable}'
         sort-object-keys='${this.sortObjectKeys}'

@@ -21,15 +21,15 @@ class ObjectLabel extends HTMLElement {
     this.theme = this.getAttribute('theme') || 'chromeLight';
     const dimmed = this.getAttribute('dimmed') === 'true' ? true : false;
     const styles = this.getAttribute('styles') || {};
-    const themeStyles = createStyles('ObjectName', this.theme);
+    this.themeStyles = createStyles('ObjectName', this.theme);
 
-    const appliedStyles = {
-      ...themeStyles.base,
+    this.appliedStyles = {
+      ...this.themeStyles.base,
       ...(dimmed ? themeStyles['dimmed'] : {}),
       ...styles,
     };
 
-    this.render(this.name, appliedStyles);
+    this.render(this.name, this.appliedStyles);
   }
 
   render(name, appliedStyles) {

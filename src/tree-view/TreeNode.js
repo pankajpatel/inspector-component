@@ -55,6 +55,8 @@ class TreeNode extends HTMLElement {
     this.path = this.getAttribute('path');
     this.theme = this.getAttribute('theme') || 'chromeLight';
 
+    this.depth = parseInt(this.getAttribute('depth') || 0);
+
     this.expanded = this.getAttribute('expanded') == 'true' ? true : false;
 
     this.shouldShowArrow = this.getAttribute('should-show-arrow') == 'false' ? false : true;

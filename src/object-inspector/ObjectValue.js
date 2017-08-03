@@ -25,6 +25,7 @@ class ObjectValue extends HTMLElement {
 
   render(data) {
     this.innerHTML = this.markup(data || this.data);
+    this.setAttribute('type', typeof data);
   }
   mkStyle(key) {
     const styles = this.getAttribute('styles') || {};
@@ -37,7 +38,7 @@ class ObjectValue extends HTMLElement {
       case 'number':
         return (`<span class='objectValueNumber' style='${this.mkStyle('objectValueNumber')}' >${object}</span>`);
       case 'string':
-        return (`<span class='objectValueString' style='${this.mkStyle('objectValueString')}' >${object}</span>`);
+        return (`<span class='objectValueString' style='${this.mkStyle('objectValueString')}' >"${object}"</span>`);
       case 'boolean':
         return (`<span class='objectValueBoolean' style='${this.mkStyle('objectValueBoolean')}' >${String(object)}</span>`);
       case 'undefined':
