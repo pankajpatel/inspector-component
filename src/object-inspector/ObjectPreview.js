@@ -54,12 +54,9 @@ class ObjectPreview extends HTMLElement {
     if (Array.isArray(object)) {
       return (`
         <span style='${toCss(styles.preview)}'>
-          [
-          ${
-            object.map((element, index) => `<object-value
-              class="1" data='${element}' ></object-value>`
-          ).join(', ')}
-          ]
+          [${
+            object.map(element => `<object-value data='${element}' ></object-value>`).join(', ')
+          }]
         </span>
       `);
     } else {
@@ -74,8 +71,8 @@ class ObjectPreview extends HTMLElement {
           ) {
             ellipsis = `<span>…</span>`;
           }
-          propertyNodes.push(`<span><object-name class="2" name='${propertyName}'
-            ></object-name>:&nbsp;<object-value class="4" data='${propertyValue}'
+          propertyNodes.push(`<span><object-name name='${propertyName}'
+            ></object-name>:&nbsp;<object-value data='${propertyValue}'
             ></object-value>${ellipsis}</span>`);
           if (ellipsis != '') break;
         }
