@@ -1,7 +1,7 @@
 {
   "name": "inspector-component",
   "version": "0.1.0",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "repository": "git@github.com:pankajpatel/inspector-component.git",
   "author": "Pankaj Patel <patel.pankaj@live.in>",
   "license": "MIT",
