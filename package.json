@@ -1,8 +1,8 @@
 {
-  "name": "inspecter-components",
+  "name": "inspector-component",
   "version": "0.1.0",
   "main": "src/index.js",
-  "repository": "git@github.com:pankajpatel/inspecter-component.git",
+  "repository": "git@github.com:pankajpatel/inspector-component.git",
   "author": "Pankaj Patel <patel.pankaj@live.in>",
   "license": "MIT",
   "scripts": {
@@ -12,8 +12,6 @@
     "story": "ascesis-storybook"
   },
   "dependencies": {
-    "@webcomponents/custom-elements": "^1.0.0",
-    "ascesis": "holidaypirates/ascesis",
     "document-register-element": "^1.5.0",
     "param-case": "^2.1.1"
   },
