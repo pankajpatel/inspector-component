@@ -1,6 +1,6 @@
 {
   "name": "inspector-component",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "lib/index.js",
   "repository": "git@github.com:pankajpatel/inspector-component.git",
   "author": "Pankaj Patel <patel.pankaj@live.in>",
@@ -8,9 +8,10 @@
   "scripts": {
     "generate": "babel src -d lib",
     "watch": "webpack --progress --watch",
-    "build": "webpack --progress --production",
+    "build": "webpack --progress -p",
     "story": "ascesis-storybook",
-    "postinstall": "npm run generate"
+    "postinstall": "npm run generate",
+    "postbuild": "npm run generate"
   },
   "dependencies": {
     "document-register-element": "^1.5.0",
