@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Inspecter webcomponent based on react-inspector",
   "license": "MIT",
-  "main": "dist/inspecter-component.js",
+  "main": [
+    "inspector-component.html",
+    "dist/inspecter-component.js"
+  ],
   "keywords": [
     "web-components"
   ],
