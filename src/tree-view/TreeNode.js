@@ -72,7 +72,7 @@ class TreeNode extends HTMLElement {
         <div style='${toCss(styles.treeNodePreviewContainer)}' path='${this.path}' class="clickableNode">
           ${this.expandable
             ? `<tree-arrow expanded='${this.expanded}' styles='${JSON.stringify(styles.treeNodeArrow)}'></tree-arrow>`
-            : (this.shouldShowPlaceholder) && `<span style='${toCss(styles.treeNodePlaceholder)}'>&nbsp;</span>`}
+            : this.shouldShowPlaceholder ? `<span style='${toCss(styles.treeNodePlaceholder)}'>&nbsp;</span>` : ''}
           ${renderedNode}
         </div>
         <div class='child-nodes'>

@@ -28,7 +28,7 @@ class ObjectPreview extends HTMLElement {
   }
 
   connectedCallback() {
-    this.maxProperties = this.getAttribute('max-properties') || 5;
+    this.maxProperties = this.getAttribute('max-properties') || 3;
     this._data = (this.getAttribute('data') || 'null');
     const data = parse(this._data);
     this.data = data;
@@ -59,6 +59,8 @@ class ObjectPreview extends HTMLElement {
           }]
         </span>
       `);
+    } else if (typeof object === 'string') {
+      return `<object-value data='${object}' ></object-value>`;
     } else {
       let propertyNodes = [];
       for (let propertyName in object) {

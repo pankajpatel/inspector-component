@@ -45,5 +45,4 @@ typings/
 # dotenv environment variables file
 .env
 
-dist/
 .DS_Store

@@ -1,6 +1,6 @@
 {
   "name": "inspecter-component",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Inspecter webcomponent based on react-inspector",
   "license": "MIT",
   "main": "dist/inspecter-component.js",
@@ -9,9 +9,16 @@
   ],
   "ignore": [
     "**/.*",
-    "bower_components"
+    "bower_components",
+    "node_modules",
+    "test",
+    "tests"
   ],
   "dependencies": {
     "custom-elements": "^1.0.3"
-  }
+  },
+  "homepage": "https://github.com/pankajpatel/inspector-component",
+  "authors": [
+    "Pankaj Patel <patel.pankaj@live.in> (http://pankaj.pro)"
+  ]
 }

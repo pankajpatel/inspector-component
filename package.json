@@ -9,7 +9,8 @@
     "generate": "babel src -d lib",
     "watch": "webpack --progress --watch",
     "build": "webpack --progress --production",
-    "story": "ascesis-storybook"
+    "story": "ascesis-storybook",
+    "postinstall": "npm run generate"
   },
   "dependencies": {
     "document-register-element": "^1.5.0",
