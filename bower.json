@@ -1,11 +1,11 @@
 {
-  "name": "inspecter-component",
+  "name": "inspector-component",
   "version": "0.1.3",
-  "description": "Inspecter webcomponent based on react-inspector",
+  "description": "Inspector webcomponent based on react-inspector",
   "license": "MIT",
   "main": [
     "inspector-component.html",
-    "dist/inspecter-component.js"
+    "dist/inspector-component.js"
   ],
   "keywords": [
     "web-components"

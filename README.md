@@ -1,6 +1,6 @@
-# inspecter-component [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/pankajpatel/inspector-component)
+# inspector-component [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/pankajpatel/inspector-component)
 
-Inspecter webcomponent based on react-inspector
+Inspector webcomponent based on react-inspector
 
 ## Installation
 
