@@ -1,4 +1,4 @@
-const createStyles = require('../styles/createStyles');
+import createStyles from '../styles/createStyles';
 const toCss = require('../utils/inlineToStyle');
 const parse = require('../utils/parser');
 
@@ -8,9 +8,6 @@ const defaultNodeRenderer = ({depth, name, data, isNonenumerable}) =>
     : `<object-label name='${name !== undefined ? name : '' }' data='${data}' isNonenumerable='${isNonenumerable}' ></object-label>`;
 
 class Arrow extends HTMLElement {
-  constructor() {
-    super();
-  }
   static get observedAttributes() {
     return ['expanded'];
   }
@@ -18,10 +15,10 @@ class Arrow extends HTMLElement {
     if (attr == 'expanded' && newValue != oldValue) {
       let span = this.querySelector('span')
       if(span){
-        span.setAttribute('style', toCss({
-          ...this.styles.base,
-          ...(newValue === true || newValue === 'true' ? this.styles.expanded : this.styles.collapsed)
-        }));
+        span.setAttribute('style', toCss(Object.assign({},
+          this.styles.base,
+          (newValue === true || newValue === 'true' ? this.styles.expanded : this.styles.collapsed)
+        )));
       }
     }
   }
@@ -29,19 +26,16 @@ class Arrow extends HTMLElement {
     const expanded = this.getAttribute('expanded') == 'true' ? true : false;
     this.styles = JSON.parse(this.getAttribute('styles') || '{}') || {};
     this.removeAttribute('styles')
-    this.innerHTML = `<span style='${toCss({
-        ...this.styles.base,
-        ...(expanded === true ? this.styles.expanded : this.styles.collapsed)
-      })}'>▶</span>`;
+    this.innerHTML = `<span style='${toCss(Object.assign({},
+        this.styles.base,
+        (expanded === true ? this.styles.expanded : this.styles.collapsed)
+      ))}'>▶</span>`;
   }
 }
 
 customElements.define('tree-arrow', Arrow);
 
 class TreeNode extends HTMLElement {
-  constructor() {
-    super();
-  }
   connectedCallback(){
     const nodeRenderer = defaultNodeRenderer || (({ name }) => `<span>${name}</span>`);
 

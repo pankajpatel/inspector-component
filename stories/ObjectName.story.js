@@ -1,4 +1,4 @@
-const {storiesOf} = require('ascesis-storybook');
+const {storiesOf} = require('modulor-storybook');
 
 require('../src/object-inspector/ObjectName');
 
@@ -10,7 +10,7 @@ storiesOf('ObjectName')
     <object-name data='${data}'></object-name>
   `)
   .add('string', () => `
-    <object-name data='Hello World'></object-name>
+    <object-name data='"Hello World"'></object-name>
   `)
   .add('number', () => `
     <object-name data='12'></object-name>

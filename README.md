@@ -10,6 +10,8 @@ _*bower*_: `bower install inspector-component --save-dev`
 
 ## Usage
 
+> Only for ES6 supporting browsers
+
 ```html
 <script src="bower_components/inspector-components/dist/inspector-component.js"></script>
 
@@ -61,6 +63,7 @@ setTimeout(function() {
 
 ## History
 
+* 1.0.0: Refactored, breaking changes. Now only usable in ES6 enabled browsers
 * 0.1.2: Added Demo
 * 0.1.1: Fixed for Bower
 * 0.1.0: Initial Version

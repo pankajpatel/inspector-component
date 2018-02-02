@@ -1,4 +1,4 @@
-const {storiesOf} = require('ascesis-storybook');
+const {storiesOf} = require('modulor-storybook');
 
 require('../src/object-inspector/ObjectValue');
 

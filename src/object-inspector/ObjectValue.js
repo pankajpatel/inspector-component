@@ -1,16 +1,8 @@
-const createStyles = require('../styles/createStyles');
+import createStyles from '../styles/createStyles';
 const toCss = require('../utils/inlineToStyle');
 const parse = require('../utils/parser');
-/**
- * A short description of the object values.
- * Can be used to render tree node in ObjectInspector
- * or render objects in TableInspector.
- */
-class ObjectValue extends HTMLElement {
-  constructor() {
-    super();
-  }
 
+class ObjectValue extends HTMLElement {
   connectedCallback() {
     this.theme = this.getAttribute('theme') || 'chromeLight';
 
@@ -30,7 +22,7 @@ class ObjectValue extends HTMLElement {
   mkStyle(key) {
     const styles = this.getAttribute('styles') || {};
     const themeStyles = createStyles('ObjectValue', this.theme);
-    return toCss({ ...themeStyles[key], ...styles })
+    return toCss(Object.assign({}, themeStyles[key], styles));
   }
 
   markup(object) {
@@ -53,7 +45,7 @@ class ObjectValue extends HTMLElement {
         if (object instanceof RegExp) {
           return (`<span class='objectValueRegExp' style='${this.mkStyle('objectValueRegExp')}' >${object.toString()}</span>`);
         }
-        if (Array.isArray(object)) {
+        if (object instanceof Array) {
           return `<span>${`Array[${object.length}]`}</span>`;
         }
         return (`<span>${object.constructor.name}</span>`);

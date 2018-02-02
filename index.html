@@ -3,12 +3,27 @@
 <head>
   <meta charset="utf-8">
   <title>Inspector Component</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.1.0/webcomponents-hi-sd-ce.js"></script>
   <link rel="import" href="./inspector-component.html">
 </head>
 <body>
   <inspector-component data="Hello World"></inspector-component>
+  <hr>
   <inspector-component data='["56dcf573b09c217d39fd7621", "Hello World"]'></inspector-component>
+  <hr>
   <inspector-component data='{"_id":"56dcf573b09c217d39fd7621", "name":"Hello World"}'></inspector-component>
+  <hr>
   <inspector-component data='{"_id":"56dcf573b09c217d39fd7621","name":"Howard Christensen","email":"howardchristensen@isotronic.com","phone":"+1 (830) 529-3176","address":"511 Royce Street, Hilltop, Tennessee, 9712","friends":[{"_id":"56dcf573b09c217d39fd7621","name":"Howard Christensen","email":"howardchristensen@isotronic.com","phone":"+1 (830) 529-3176","address":"511 Royce Street, Hilltop, Tennessee, 9712"}]}'></inspector-component>
+  <hr>
+  <div id="logs">
+
+  </div>
+  <script>
+    const d = Array(5).fill({index: 0, data: '0'}).map((i, _i) => ({index: _i, data: `${_i}`}));
+    console.log(d);
+    const i = document.createElement('inspector-component');
+    i.setAttribute('data', JSON.stringify(d));
+    document.querySelector('#logs').appendChild(i);
+  </script>
 </body>
 </html>

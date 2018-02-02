@@ -1,4 +1,4 @@
-const createStyles = require('../styles/createStyles');
+import createStyles from '../styles/createStyles';
 const toCss = require('../utils/inlineToStyle');
 
 /**
@@ -11,28 +11,25 @@ const toCss = require('../utils/inlineToStyle');
  * the property name will be dimmed to show the difference.
  */
 class ObjectLabel extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.name = this.getAttribute('name') || 'undefined';
     const object = this.getAttribute('data');
+    object && (this.name = object.constructor.name);
     this.theme = this.getAttribute('theme') || 'chromeLight';
     const dimmed = this.getAttribute('dimmed') === 'true' ? true : false;
     const styles = this.getAttribute('styles') || {};
     this.themeStyles = createStyles('ObjectName', this.theme);
 
-    this.appliedStyles = {
-      ...this.themeStyles.base,
-      ...(dimmed ? themeStyles['dimmed'] : {}),
-      ...styles,
-    };
+    this.appliedStyles = Object.assign({},
+      this.themeStyles.base,
+      (dimmed ? themeStyles['dimmed'] : {}),
+      styles,
+    );
 
     this.render(this.name, this.appliedStyles);
   }
 
-  render(name, appliedStyles) {
+  render(name = this.name, appliedStyles = this.appliedStyles) {
     this.innerHTML = `<span style='${toCss(appliedStyles)}'>${name}</span>`;
   }
 }

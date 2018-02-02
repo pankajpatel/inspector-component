@@ -20,9 +20,6 @@ const reducer = (state, action) => {
 };
 
 class TreeView extends HTMLElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.name = this.getAttribute('name') || '';
     this._data = (this.getAttribute('data') || 'null');

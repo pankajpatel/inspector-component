@@ -5,10 +5,6 @@ const ObjectValue = require('./ObjectValue');
  * if isNonenumerable is specified, render the name dimmed
  */
 class ObjectLabel extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     const name = this.getAttribute('name') || '';
     const data = this.getAttribute('data') || {};

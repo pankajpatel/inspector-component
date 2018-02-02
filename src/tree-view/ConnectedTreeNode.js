@@ -25,9 +25,6 @@ const reducer = (state, action) => {
 };
 
 class ConnectedTreeNode extends HTMLElement {
-  constructor() {
-    super();
-  }
   connectedCallback() {
     this.name = this.getAttribute('name') || '';
     this.path = this.getAttribute('path') || DEFAULT_ROOT_PATH;
@@ -56,7 +53,7 @@ class ConnectedTreeNode extends HTMLElement {
       this.state.expandedPaths[p] = !this.state.expandedPaths[p];
       element.expanded = !element.expanded
       element.setAttribute('expanded', element.expanded);
-      element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
+      element.querySelector('tree-arrow') && element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
     };
     element.removeEventListener('click', handler);
     element.addEventListener('click', handler);

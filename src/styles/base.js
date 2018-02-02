@@ -93,22 +93,18 @@ export default theme => ({
       fontSize: theme.TREENODE_FONT_SIZE,
     },
     treeNodePreviewContainer: {},
-    treeNodePlaceholder: {
+    treeNodePlaceholder: Object.assign({
       whiteSpace: 'pre',
-
       fontSize: theme.ARROW_FONT_SIZE,
-      marginRight: theme.ARROW_MARGIN_RIGHT,
-      ...unselectable,
-    },
+      marginRight: theme.ARROW_MARGIN_RIGHT
+    }, unselectable),
     treeNodeArrow: {
-      base: {
+      base: Object.assign({
         color: theme.ARROW_COLOR,
         display: 'inline-block',
-        // lineHeight: '14px',
         fontSize: theme.ARROW_FONT_SIZE,
         marginRight: theme.ARROW_MARGIN_RIGHT,
-        ...unselectable,
-      },
+      }, unselectable),
       expanded: {
         WebkitTransform: 'rotateZ(90deg)',
         MozTransform: 'rotateZ(90deg)',
@@ -250,7 +246,7 @@ export default theme => ({
     },
   },
 
-  TableInspectorSortIcon: {
+  TableInspectorSortIcon: Object.assign({
     display: 'block',
     marginRight: 3, // 4,
     width: 8,
@@ -259,7 +255,5 @@ export default theme => ({
     marginTop: -7,
     color: theme.TABLE_SORT_ICON_COLOR,
     fontSize: 12,
-    // lineHeight: 14
-    ...unselectable,
-  },
+  }, unselectable),
 });
