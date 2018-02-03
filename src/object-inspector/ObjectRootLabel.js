@@ -2,10 +2,6 @@ require('./ObjectName');
 require('./ObjectPreview');
 
 class ObjectRootLabel extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     const name = this.getAttribute('name') || undefined;
     this._data = (this.getAttribute('data') || 'null');

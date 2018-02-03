@@ -23,10 +23,6 @@ function intersperse(arr, sep) {
  * A preview of the object
  */
 class ObjectPreview extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.maxProperties = this.getAttribute('max-properties') || 3;
     this._data = (this.getAttribute('data') || 'null');
@@ -51,11 +47,13 @@ class ObjectPreview extends HTMLElement {
       return `<object-value data='${this._data}' ></object-value>`;
     }
 
-    if (Array.isArray(object)) {
+    if (object instanceof Array) {
       return (`
         <span style='${toCss(styles.preview)}'>
-          [${
-            object.map(element => `<object-value data='${element}' ></object-value>`).join(', ')
+          (${object.length}) [${
+            object.map(element => {
+              return `<object-value data='${JSON.stringify(element)}' ></object-value>`
+            }).join(', ')
           }]
         </span>
       `);

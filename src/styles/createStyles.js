@@ -6,8 +6,7 @@ const styles = Object.keys(themes).reduce((styles, themeName) => {
   return styles;
 }, {});
 
-const createStyles = (key, theme) => {
-  // console.debug(styles, theme, styles[theme])
+export default (key, theme) => {
   if (typeof theme === 'string') {
     return styles[theme][key];
   } else if (typeof theme === 'object') {
@@ -16,5 +15,3 @@ const createStyles = (key, theme) => {
   // Default styles
   return styles['chromeLight'][key];
 };
-
-module.exports = createStyles;

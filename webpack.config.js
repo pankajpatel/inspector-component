@@ -1,41 +1,33 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   // devtool: 'eval-source-map',
-  entry: ["babel-polyfill", path.join(__dirname, 'src' , 'index.js')]
-  ,
+  mode: 'development',
+  entry: path.join(__dirname, 'src' , 'index.js'),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'inspector-component.js'
   },
-  resolveLoader: {
+  resolve: {
     modules: [
       'node_modules',
-      path.join(__dirname, '../node_modules'),
+      path.join(__dirname, 'src'),
     ]
   },
-  resolve: {
-    alias: {
-      js: path.join(__dirname, 'src' , 'js'),
-      root: __dirname
-    }
-  },
   module:{
-    loaders: [
+    rules: [
       {
-        test: /.js?$/,
-        loader: 'babel-loader',
-        exclude: [/node_modules/],
-        query: {
-          presets: ['es2015', 'stage-0'],
-          plugins: ["transform-object-rest-spread"]
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            // presets: ['@babel/preset-env'],
+            plugins: []
+          }
         }
-      }, {
-        test: /.scss?$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader'}),
-        exclude: /node_modules/
       }
     ]
   },
@@ -46,24 +38,6 @@ module.exports = {
     inline: true
   },
   plugins: [
-    new ExtractTextPlugin("css/[name].css"),
-
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        join_vars: true,
-        if_return: true
-      },
-      output: {
-        comments: false
-      }
-    }),
+    new UglifyJsPlugin(),
   ]
 }

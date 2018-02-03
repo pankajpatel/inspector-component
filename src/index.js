@@ -1,59 +1,60 @@
-require('document-register-element');
-require('./object-inspector/ObjectInspector');
 const { $find, $append, $prepend } = require('./utils/dom');
+require('./object-inspector/ObjectInspector');
 
 const styleTag = `<style>
-inspector-component {
-  font-family: Menlo, monospace;
-  font-size: 11px;
-  line-height: 14px;
-  cursor: default;
-}
-object-inspector {
-  display: inline-block;
-}
-object-root-label {
-  font-style: italic;
-}
-object-name {
-  color: rgb(136, 19, 145);
-}
-.objectValueString {
-  color: rgb(196, 26, 22);
-}
-.child-nodes > ol {
-  padding: 0;
-  margin: 0;
-  padding-left: 12px;
-}
-tree-node .child-nodes{
-  display: none;
-}
-tree-node[expanded="true"] > li > .child-nodes{
-  display: block;
-}
-.counter {
-  display: none;
-}
-.counter.shown {
-  display: inline-block;
-  margin-right: 5px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  border-radius: 9px;
-  background: #cdcecf;
-  padding: 4px;
-  min-width: 12px;
-  text-align: center;
-  height: 12px;
-  font-size: 10px;
-  color: #555;
-}
+  inspector-component {
+    font-family: Menlo, monospace;
+    line-height: 1.4;
+    cursor: default;
+    display: block;
+  }
+  object-inspector {
+    display: inline-block;
+  }
+  object-root-label {
+    font-style: italic;
+  }
+  object-name {
+    color: rgb(136, 19, 145);
+  }
+  .objectValueString {
+    color: rgb(196, 26, 22);
+  }
+  .child-nodes > ol {
+    padding: 0;
+    margin: 0;
+    padding-left: 12px;
+  }
+  tree-node .child-nodes{
+    display: none;
+  }
+  tree-node[expanded="true"] > li > .child-nodes{
+    display: block;
+  }
+  .counter {
+    display: none;
+  }
+  .counter.shown {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border-radius: 9px;
+    background: #cdcecf;
+    padding: 4px;
+    min-width: 12px;
+    text-align: center;
+    height: 12px;
+    font-size: 10px;
+    color: #555;
+  }
 </style>`;
 
 class Inspector extends HTMLElement {
-  constructor() {
-    super();
+  connectedCallback(){
+    const _data = this.getAttribute('data')
+    this.removeAttribute('data');
+    this.render(_data);
   }
   static get observedAttributes() {
     return ['data'];
@@ -63,11 +64,7 @@ class Inspector extends HTMLElement {
       this.render(newValue);
     }
   }
-  connectedCallback(){
-    const _data = this.getAttribute('data')
-    this.removeAttribute('data');
-    this.render(_data);
-  }
+
   log(_data) {
     let data = typeof _data === 'string' ? _data : JSON.stringify(_data)
     if(data !== this._data) {
