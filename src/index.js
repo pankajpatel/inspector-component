@@ -54,15 +54,8 @@ class Inspector extends HTMLElement {
   connectedCallback(){
     const _data = this.getAttribute('data')
     this.removeAttribute('data');
+    this.dom = this.attachShadow({ mode: 'open' });
     this.render(_data);
-  }
-  static get observedAttributes() {
-    return ['data'];
-  }
-  attributeChangedCallback(attr, oldValue, newValue) {
-    if (attr == 'data' && newValue != oldValue) {
-      this.render(newValue);
-    }
   }
 
   log(_data) {
@@ -83,7 +76,7 @@ class Inspector extends HTMLElement {
   }
   render(data) {
     this._data = data;
-    this.innerHTML = `${styleTag}
+    this.dom.innerHTML = `${styleTag}
     ${this.inspector(data)}`;
   }
 }
