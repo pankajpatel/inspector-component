@@ -340,88 +340,6 @@ customElements.define('object-value', ObjectValue);
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["hasChildNodes"] = hasChildNodes;
-const DEFAULT_ROOT_PATH = '$';
-/* harmony export (immutable) */ __webpack_exports__["DEFAULT_ROOT_PATH"] = DEFAULT_ROOT_PATH;
-
-
-const WILDCARD = '*';
-
-function hasChildNodes(data, dataIterator) {
-  return !dataIterator(data).next().done;
-}
-
-const wildcardPathsFromLevel = level => {
-  // i is depth
-  return Array.from({ length: level }, (_, i) =>
-    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.'),
-  );
-};
-/* harmony export (immutable) */ __webpack_exports__["wildcardPathsFromLevel"] = wildcardPathsFromLevel;
-
-
-const getExpandedPaths = (
-  data,
-  dataIterator,
-  expandPaths,
-  expandLevel,
-  initialState = {},
-) => {
-  let wildcardPaths = []
-    .concat(wildcardPathsFromLevel(expandLevel))
-    .concat(expandPaths)
-    .filter(path => typeof path === 'string'); // could be undefined
-
-  const expandedPaths = [];
-  wildcardPaths.forEach(wildcardPath => {
-    const keyPaths = wildcardPath.split('.');
-    const populatePaths = (curData, curPath, depth) => {
-      if (depth === keyPaths.length) {
-        expandedPaths.push(curPath);
-        return;
-      }
-      const key = keyPaths[depth];
-      if (depth === 0) {
-        if (
-          hasChildNodes(curData, dataIterator) &&
-          (key === DEFAULT_ROOT_PATH || key === WILDCARD)
-        ) {
-          populatePaths(curData, DEFAULT_ROOT_PATH, depth + 1);
-        }
-      } else {
-        if (key === WILDCARD) {
-          for (let { name, data } of dataIterator(curData)) {
-            if (hasChildNodes(data, dataIterator)) {
-              populatePaths(data, `${curPath}.${name}`, depth + 1);
-            }
-          }
-        } else {
-          const value = curData[key];
-          if (hasChildNodes(value, dataIterator)) {
-            populatePaths(value, `${curPath}.${key}`, depth + 1);
-          }
-        }
-      }
-    };
-
-    populatePaths(data, '', 0);
-  });
-
-  return expandedPaths.reduce((obj, path) => {
-    obj[path] = true;
-    return obj;
-  }, initialState);
-};
-/* harmony export (immutable) */ __webpack_exports__["getExpandedPaths"] = getExpandedPaths;
-
-
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -895,11 +813,11 @@ var BaseController = exports.BaseController = function (_BaseComponent) {
 }(BaseComponent);
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(3);
-__webpack_require__(9);
+__webpack_require__(8);
 
 class ObjectRootLabel extends HTMLElement {
   connectedCallback() {
@@ -921,7 +839,7 @@ customElements.define('object-root-label', ObjectRootLabel);
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(5);
@@ -1017,7 +935,7 @@ customElements.define('object-preview', ObjectPreview);
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const ObjectName = __webpack_require__(3);
@@ -1045,7 +963,7 @@ customElements.define('object-label', ObjectLabel);
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = (showNonenumerable, sortObjectKeys) => {
@@ -1121,6 +1039,88 @@ module.exports = (showNonenumerable, sortObjectKeys) => {
 
   return objectIterator;
 };
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["hasChildNodes"] = hasChildNodes;
+const DEFAULT_ROOT_PATH = '$';
+/* harmony export (immutable) */ __webpack_exports__["DEFAULT_ROOT_PATH"] = DEFAULT_ROOT_PATH;
+
+
+const WILDCARD = '*';
+
+function hasChildNodes(data, dataIterator) {
+  return !dataIterator(data).next().done;
+}
+
+const wildcardPathsFromLevel = level => {
+  // i is depth
+  return Array.from({ length: level }, (_, i) =>
+    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.'),
+  );
+};
+/* harmony export (immutable) */ __webpack_exports__["wildcardPathsFromLevel"] = wildcardPathsFromLevel;
+
+
+const getExpandedPaths = (
+  data,
+  dataIterator,
+  expandPaths,
+  expandLevel,
+  initialState = {},
+) => {
+  let wildcardPaths = []
+    .concat(wildcardPathsFromLevel(expandLevel))
+    .concat(expandPaths)
+    .filter(path => typeof path === 'string'); // could be undefined
+
+  const expandedPaths = [];
+  wildcardPaths.forEach(wildcardPath => {
+    const keyPaths = wildcardPath.split('.');
+    const populatePaths = (curData, curPath, depth) => {
+      if (depth === keyPaths.length) {
+        expandedPaths.push(curPath);
+        return;
+      }
+      const key = keyPaths[depth];
+      if (depth === 0) {
+        if (
+          hasChildNodes(curData, dataIterator) &&
+          (key === DEFAULT_ROOT_PATH || key === WILDCARD)
+        ) {
+          populatePaths(curData, DEFAULT_ROOT_PATH, depth + 1);
+        }
+      } else {
+        if (key === WILDCARD) {
+          for (let { name, data } of dataIterator(curData)) {
+            if (hasChildNodes(data, dataIterator)) {
+              populatePaths(data, `${curPath}.${name}`, depth + 1);
+            }
+          }
+        } else {
+          const value = curData[key];
+          if (hasChildNodes(value, dataIterator)) {
+            populatePaths(value, `${curPath}.${key}`, depth + 1);
+          }
+        }
+      }
+    };
+
+    populatePaths(data, '', 0);
+  });
+
+  return expandedPaths.reduce((obj, path) => {
+    obj[path] = true;
+    return obj;
+  }, initialState);
+};
+/* harmony export (immutable) */ __webpack_exports__["getExpandedPaths"] = getExpandedPaths;
+
 
 
 /***/ }),
@@ -1378,23 +1378,32 @@ storiesOf('ObjectInspector')
 
 __webpack_require__(17);
 
-/**
- * Tree-view for objects
- */
+const template = (scope) => `
+<tree-view
+  theme='${scope.theme}'
+  data='${scope.data}'
+  show-non-enumerable='${scope.showNonenumerable}'
+  sort-object-keys='${scope.sortObjectKeys}'
+></tree-view>
+`;
+
 class ObjectInspector extends HTMLElement {
   connectedCallback() {
-    const showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
-    const sortObjectKeys = this.getAttribute('sort-object-keys') == 'true' ? true : false;
-    const theme = this.getAttribute('theme') || 'chromeLight';
-    this._data = this.getAttribute('data') || '{}';
-    this.removeAttribute('data');
+    this.showNonenumerable = this.hasAttribute('show-non-enumerable');
+    this.sortObjectKeys = this.hasAttribute('sort-object-keys');
+    this.theme = this.getAttribute('theme') || 'chromeLight';
+    this.data = this.getAttribute('data') || '{}';
+    [
+      'data',
+      'theme',
+      'sort-object-keys',
+      'show-non-enumerable',
+    ].forEach(k => this.removeAttribute(k));
 
-    this.innerHTML = `<tree-view
-      theme='${theme}'
-      data='${this._data}'
-      show-non-enumerable='${showNonenumerable}'
-      sort-object-keys='${sortObjectKeys}'
-      ></tree-view>`;
+    this.render();
+  }
+  render() {
+    this.innerHTML = template(this);
   }
 }
 
@@ -1407,8 +1416,8 @@ customElements.define('object-inspector', ObjectInspector);
 
 __webpack_require__(18)
 const parse = __webpack_require__(1);
-const createIterator = __webpack_require__(11);
-const { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } = __webpack_require__(6);
+const createIterator = __webpack_require__(10);
+const { DEFAULT_ROOT_PATH, hasChildNodes, getExpandedPaths } = __webpack_require__(11);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -1476,14 +1485,13 @@ customElements.define('tree-view', TreeView);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-__webpack_require__(8);
-__webpack_require__(10);
+__webpack_require__(7);
+__webpack_require__(9);
 
 const parse = __webpack_require__(1);
-const { hasChildNodes } = __webpack_require__(6);
-const createIterator = __webpack_require__(11);
+const createIterator = __webpack_require__(10);
 
-const { DEFAULT_ROOT_PATH, getExpandedPaths } = __webpack_require__(6);
+const { DEFAULT_ROOT_PATH, getExpandedPaths, hasChildNodes } = __webpack_require__(11);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -2221,7 +2229,7 @@ module.exports = /([A-Z\xC0-\xD6\xD8-\xDE\u0100\u0102\u0104\u0106\u0108\u010A\u0
 
 const {storiesOf} = __webpack_require__(0);
 
-__webpack_require__(10);
+__webpack_require__(9);
 
 storiesOf('ObjectLabel')
   .add('object', () => `
@@ -2264,7 +2272,7 @@ storiesOf('ObjectName')
 
 const {storiesOf} = __webpack_require__(0);
 
-__webpack_require__(9);
+__webpack_require__(8);
 
 storiesOf('ObjectPreview')
   .add('object', () => `
@@ -2290,7 +2298,7 @@ storiesOf('ObjectPreview')
 
 const {storiesOf} = __webpack_require__(0);
 
-__webpack_require__(8);
+__webpack_require__(7);
 
 storiesOf('ObjectRootLabel')
   .add('object', () => `
@@ -2713,7 +2721,7 @@ var _pathToRegexp = __webpack_require__(42);
 
 var _pathToRegexp2 = _interopRequireDefault(_pathToRegexp);
 
-var _modulor = __webpack_require__(7);
+var _modulor = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
