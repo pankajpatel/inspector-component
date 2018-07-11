@@ -26,6 +26,7 @@ class TreeView extends HTMLElement {
     const data = parse(this._data);
     this.data = data;
     this.removeAttribute('data');
+    this.theme = this.getAttribute('theme') || 'chromeLight';
 
     this.expandedPaths = this.getAttribute('expanded-paths') || [];
     this.expandLevel = this.getAttribute('expand-level') || 0;
@@ -51,6 +52,7 @@ class TreeView extends HTMLElement {
       <connected-tree-node
         name='${this.name}'
         data='${this._data}'
+        theme='${this.theme}'
         depth='0'
         path='${rootPath}'
         show-non-enumerable='${this.showNonenumerable}'
