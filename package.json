@@ -15,7 +15,7 @@
     "param-case": "^2.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.39",
+    "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.0-beta.0",
