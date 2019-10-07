@@ -18,7 +18,7 @@
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "babel-cli": "^6.26.0",
-    "babel-loader": "^8.0.0-beta.0",
+    "babel-loader": "^8.0.0-beta.2",
     "modulor-storybook": "github:modulor-js/modulor-storybook",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^4.40.0",
