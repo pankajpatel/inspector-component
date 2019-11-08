@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-env": "^7.7.1",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.0-beta.2",
     "modulor-storybook": "github:modulor-js/modulor-storybook",
