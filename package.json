@@ -21,7 +21,7 @@
     "babel-loader": "^8.2.2",
     "modulor-storybook": "github:modulor-js/modulor-storybook",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.44.2",
+    "webpack": "^4.45.0",
     "webpack-cli": "^4.2.0"
   }
 }
