@@ -1,6 +1,7 @@
-module.exports = (showNonenumerable, sortObjectKeys) => {
-  const objectIterator = function*(data) {
-    const shouldIterate = (typeof data === 'object' && data !== null) || typeof data === 'function';
+export default (showNonenumerable, sortObjectKeys) => {
+  const objectIterator = function* (data) {
+    const shouldIterate =
+      (typeof data === "object" && data !== null) || typeof data === "function";
     if (!shouldIterate) return;
 
     // iterable objects (except arrays)
@@ -25,7 +26,7 @@ module.exports = (showNonenumerable, sortObjectKeys) => {
       const keys = Object.getOwnPropertyNames(data);
       if (sortObjectKeys === true) {
         keys.sort();
-      } else if (typeof sortObjectKeys === 'function') {
+      } else if (typeof sortObjectKeys === "function") {
         keys.sort(sortObjectKeys);
       }
 
@@ -61,7 +62,7 @@ module.exports = (showNonenumerable, sortObjectKeys) => {
       // the property name is shown as "__proto__"
       if (showNonenumerable && data !== Object.prototype /* already added */) {
         yield {
-          name: '__proto__',
+          name: "__proto__",
           data: Object.getPrototypeOf(data),
           isNonenumerable: true,
         };

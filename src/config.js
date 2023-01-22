@@ -1,5 +1,5 @@
-const namespace = 'i';
+export const namespace = "i";
 
-module.exports = {
-  namespace
-}
+export default {
+  namespace,
+};

@@ -19,11 +19,13 @@
 
   </div>
   <script>
-    const d = Array(5).fill({index: 0, data: '0'}).map((i, _i) => ({index: _i, data: `${_i}`}));
-    console.log(d);
-    const i = document.createElement('inspector-component');
-    i.setAttribute('data', JSON.stringify(d));
-    document.querySelector('#logs').appendChild(i);
+    (function() {
+      const data = Array(5).fill({index: 0, data: '0'}).map((i, _i) => ({index: _i, data: `${_i}`}));
+      console.log(data);
+      const element = document.createElement('inspector-component');
+      element.setAttribute('data', JSON.stringify(data));
+      document.querySelector('#logs').appendChild(element);
+    })()
   </script>
 </body>
 </html>

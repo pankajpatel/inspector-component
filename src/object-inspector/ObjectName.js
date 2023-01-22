@@ -1,5 +1,5 @@
-import createStyles from '../styles/createStyles';
-const toCss = require('../utils/inlineToStyle');
+import createStyles from "../styles/createStyles";
+import toCss from "../utils/inlineToStyle";
 
 /**
  * A view for object property names.
@@ -12,18 +12,19 @@ const toCss = require('../utils/inlineToStyle');
  */
 class ObjectLabel extends HTMLElement {
   connectedCallback() {
-    this.name = this.getAttribute('name') || 'undefined';
-    const object = this.getAttribute('data');
+    this.name = this.getAttribute("name") || "undefined";
+    const object = this.getAttribute("data");
     object && (this.name = object.constructor.name);
-    this.theme = this.getAttribute('theme') || 'chromeLight';
-    const dimmed = this.getAttribute('dimmed') === 'true' ? true : false;
-    const styles = this.getAttribute('styles') || {};
-    this.themeStyles = createStyles('ObjectName', this.theme);
+    this.theme = this.getAttribute("theme") || "chromeLight";
+    const dimmed = this.getAttribute("dimmed") === "true" ? true : false;
+    const styles = this.getAttribute("styles") || {};
+    this.themeStyles = createStyles("ObjectName", this.theme);
 
-    this.appliedStyles = Object.assign({},
+    this.appliedStyles = Object.assign(
+      {},
       this.themeStyles.base,
-      (dimmed ? themeStyles['dimmed'] : {}),
-      styles,
+      dimmed ? themeStyles["dimmed"] : {},
+      styles
     );
 
     this.render(this.name, this.appliedStyles);
@@ -33,4 +34,4 @@ class ObjectLabel extends HTMLElement {
     this.innerHTML = `<span style='${toCss(appliedStyles)}'>${name}</span>`;
   }
 }
-customElements.define('object-name', ObjectLabel);
+customElements.define("object-name", ObjectLabel);

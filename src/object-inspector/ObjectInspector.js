@@ -1,4 +1,4 @@
-require('../tree-view/TreeView');
+import "../tree-view/TreeView";
 
 const template = (scope) => `
 <tree-view
@@ -11,16 +11,13 @@ const template = (scope) => `
 
 class ObjectInspector extends HTMLElement {
   connectedCallback() {
-    this.showNonenumerable = this.hasAttribute('show-non-enumerable');
-    this.sortObjectKeys = this.hasAttribute('sort-object-keys');
-    this.theme = this.getAttribute('theme') || 'chromeLight';
-    this.data = this.getAttribute('data') || '{}';
-    [
-      'data',
-      'theme',
-      'sort-object-keys',
-      'show-non-enumerable',
-    ].forEach(k => this.removeAttribute(k));
+    this.showNonenumerable = this.hasAttribute("show-non-enumerable");
+    this.sortObjectKeys = this.hasAttribute("sort-object-keys");
+    this.theme = this.getAttribute("theme") || "chromeLight";
+    this.data = this.getAttribute("data") || "{}";
+    ["data", "theme", "sort-object-keys", "show-non-enumerable"].forEach((k) =>
+      this.removeAttribute(k)
+    );
 
     this.render();
   }
@@ -29,4 +26,4 @@ class ObjectInspector extends HTMLElement {
   }
 }
 
-customElements.define('object-inspector', ObjectInspector);
+customElements.define("object-inspector", ObjectInspector);

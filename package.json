@@ -8,20 +8,21 @@
   "scripts": {
     "generate": "babel src -d lib",
     "watch": "webpack --watch",
-    "build": "webpack -p && build-storybook -o docs && npm run generate",
-    "story": "modulor-storybook"
+    "~build": "webpack -p && build-storybook -o docs && npm run generate",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/jetbrains-mono": "^4.5.12",
     "param-case": "^3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.13.0",
-    "babel-cli": "^6.26.0",
-    "babel-loader": "^9.0.0",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
     "modulor-storybook": "github:modulor-js/modulor-storybook",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^4.7.2"
+    "vite": "^4.0.4",
+    "vite-plugin-babel": "^1.1.3"
   }
 }

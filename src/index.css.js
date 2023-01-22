@@ -1,7 +1,7 @@
-module.exports = (scope) => `
+export default (scope) => `
 <style>
 inspector-component {
-  font-family: Menlo, monospace;
+  font-family: "JetBrains Mono", Menlo, monospace;
   line-height: 1.4;
   cursor: default;
   display: block;

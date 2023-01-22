@@ -1,15 +1,15 @@
-export const DEFAULT_ROOT_PATH = '$';
+export const DEFAULT_ROOT_PATH = "$";
 
-const WILDCARD = '*';
+const WILDCARD = "*";
 
 export function hasChildNodes(data, dataIterator) {
   return !dataIterator(data).next().done;
 }
 
-export const wildcardPathsFromLevel = level => {
+export const wildcardPathsFromLevel = (level) => {
   // i is depth
   return Array.from({ length: level }, (_, i) =>
-    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => '*')).join('.'),
+    [DEFAULT_ROOT_PATH].concat(Array.from({ length: i }, () => "*")).join(".")
   );
 };
 
@@ -18,16 +18,16 @@ export const getExpandedPaths = (
   dataIterator,
   expandPaths,
   expandLevel,
-  initialState = {},
+  initialState = {}
 ) => {
   let wildcardPaths = []
     .concat(wildcardPathsFromLevel(expandLevel))
     .concat(expandPaths)
-    .filter(path => typeof path === 'string'); // could be undefined
+    .filter((path) => typeof path === "string"); // could be undefined
 
   const expandedPaths = [];
-  wildcardPaths.forEach(wildcardPath => {
-    const keyPaths = wildcardPath.split('.');
+  wildcardPaths.forEach((wildcardPath) => {
+    const keyPaths = wildcardPath.split(".");
     const populatePaths = (curData, curPath, depth) => {
       if (depth === keyPaths.length) {
         expandedPaths.push(curPath);
@@ -57,7 +57,7 @@ export const getExpandedPaths = (
       }
     };
 
-    populatePaths(data, '', 0);
+    populatePaths(data, "", 0);
   });
 
   return expandedPaths.reduce((obj, path) => {

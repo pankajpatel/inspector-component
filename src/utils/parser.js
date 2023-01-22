@@ -1,19 +1,19 @@
-module.exports = (object, callback) => {
+export default (object, callback) => {
   let data = null;
   try {
     data = JSON.parse(object);
-  } catch(e) {
-    if(isNaN(Number(object))) {
+  } catch (e) {
+    if (isNaN(Number(object))) {
       //try for String, Boolean, null, undefined
-      switch(object){
-        case 'null':
+      switch (object) {
+        case "null":
           data = null;
           break;
-        case 'undefined':
+        case "undefined":
           data = undefined;
           break;
-        case 'true':
-        case 'false':
+        case "true":
+        case "false":
           data = Boolean(object);
           break;
         default:
@@ -26,4 +26,4 @@ module.exports = (object, callback) => {
     callback ? callback(data) : () => {};
   }
   return data;
-}
+};

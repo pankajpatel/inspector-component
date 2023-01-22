@@ -4,17 +4,18 @@
  * @param {String} selector
  * @param {Element/Node} context
  */
-const $find = (selector, context = document) => Array.prototype.slice.apply( context.querySelectorAll(selector) );
+export const $find = (selector, context = document) =>
+  Array.prototype.slice.apply(context.querySelectorAll(selector));
 
 /**
  * Appends the markup to the parent
  * @param {String} markup
  * @param {Element/Node} parent
  */
-const $append = (markup, parent) => {
-  let temp_container = document.createElement('div');
+export const $append = (markup, parent) => {
+  let temp_container = document.createElement("div");
   temp_container.innerHTML = markup;
-  while(temp_container.firstChild){
+  while (temp_container.firstChild) {
     parent.appendChild(temp_container.firstChild);
   }
 };
@@ -24,14 +25,10 @@ const $append = (markup, parent) => {
  * @param {String} markup
  * @param {Element/Node} parent
  */
-const $prepend = (markup, parent) => {
-  let temp_container = document.createElement('div');
+export const $prepend = (markup, parent) => {
+  let temp_container = document.createElement("div");
   temp_container.innerHTML = markup;
-  while(temp_container.firstChild){
+  while (temp_container.firstChild) {
     parent.insertBefore(temp_container.firstChild, parent.firstElementChild);
   }
 };
-
-module.exports = {
-  $find, $append, $prepend
-}

@@ -1,13 +1,13 @@
-require('./ObjectValue');
-require('./ObjectName');
-const toCss = require('../utils/inlineToStyle');
-const parse = require('../utils/parser');
+import "./ObjectValue";
+import "./ObjectName";
+import toCss from "../utils/inlineToStyle";
+import parse from "../utils/parser";
 
 /* NOTE: Chrome console.log is italic */
 const styles = {
   preview: {
-    'font-style': 'italic'
-  }
+    "font-style": "italic",
+  },
 };
 
 /* intersperse arr with separator */
@@ -24,22 +24,23 @@ function intersperse(arr, sep) {
  */
 class ObjectPreview extends HTMLElement {
   connectedCallback() {
-    this.maxProperties = this.getAttribute('max-properties') || 3;
-    this._data = (this.getAttribute('data') || 'null');
+    this.maxProperties = this.getAttribute("max-properties") || 3;
+    this._data = this.getAttribute("data") || "null";
     const data = parse(this._data);
     this.data = data;
-    this.removeAttribute('data');
+    this.removeAttribute("data");
 
     this.render();
   }
 
   render() {
-    this.innerHTML = this.markup(this.data, this.maxProperties) || '<!--nothing-->';
+    this.innerHTML =
+      this.markup(this.data, this.maxProperties) || "<!--nothing-->";
   }
 
   markup(object, maxProperties) {
     if (
-      typeof object !== 'object' ||
+      typeof object !== "object" ||
       object === null ||
       object instanceof Date ||
       object instanceof RegExp
@@ -48,23 +49,25 @@ class ObjectPreview extends HTMLElement {
     }
 
     if (object instanceof Array) {
-      return (`
+      return `
         <span style='${toCss(styles.preview)}'>
-          (${object.length}) [${
-            object.map(element => {
-              return `<object-value data='${JSON.stringify(element)}' ></object-value>`
-            }).join(', ')
-          }]
+          (${object.length}) [${object
+        .map((element) => {
+          return `<object-value data='${JSON.stringify(
+            element
+          )}' ></object-value>`;
+        })
+        .join(", ")}]
         </span>
-      `);
-    } else if (typeof object === 'string') {
+      `;
+    } else if (typeof object === "string") {
       return `<object-value data='${object}' ></object-value>`;
     } else {
       let propertyNodes = [];
       for (let propertyName in object) {
         const propertyValue = object[propertyName];
         if (object.hasOwnProperty(propertyName)) {
-          let ellipsis = '';
+          let ellipsis = "";
           if (
             propertyNodes.length === maxProperties - 1 &&
             Object.keys(object).length > maxProperties
@@ -74,17 +77,17 @@ class ObjectPreview extends HTMLElement {
           propertyNodes.push(`<span><object-name name='${propertyName}'
             ></object-name>:&nbsp;<object-value data='${propertyValue}'
             ></object-value>${ellipsis}</span>`);
-          if (ellipsis != '') break;
+          if (ellipsis != "") break;
         }
       }
 
-      const html = intersperse(propertyNodes, ', ');
+      const html = intersperse(propertyNodes, ", ");
       return `<span
         style='${toCss(styles.preview)}'
-        >${`${object.constructor.name} {`} ${html.join('')} ${'}'}</
+        >${`${object.constructor.name} {`} ${html.join("")} ${"}"}</
           span>`;
     }
   }
 }
 
-customElements.define('object-preview', ObjectPreview);
+customElements.define("object-preview", ObjectPreview);

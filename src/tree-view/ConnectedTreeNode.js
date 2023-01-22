@@ -1,21 +1,27 @@
-require('./TreeNode');
-require('../object-inspector/ObjectRootLabel');
-require('../object-inspector/ObjectLabel');
+import "./TreeNode";
+import "../object-inspector/ObjectRootLabel";
+import "../object-inspector/ObjectLabel";
 
-const parse = require('../utils/parser');
-const createIterator = require('../utils/createIterator');
+import parse from "../utils/parser";
+import createIterator from "../utils/createIterator";
 
-const { DEFAULT_ROOT_PATH, getExpandedPaths, hasChildNodes } = require('../utils/pathUtils');
+import {
+  DEFAULT_ROOT_PATH,
+  getExpandedPaths,
+  hasChildNodes,
+} from "../utils/pathUtils";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'TOGGLE_EXPAND': {
+    case "TOGGLE_EXPAND": {
       const path = action.path;
       const expandedPaths = state.expandedPaths;
       const expanded = !!expandedPaths[path];
 
       return Object.assign({}, state, {
-        expandedPaths: Object.assign({}, state.expandedPaths, { [path]: !expanded }),
+        expandedPaths: Object.assign({}, state.expandedPaths, {
+          [path]: !expanded,
+        }),
       });
     }
     default:
@@ -25,41 +31,49 @@ const reducer = (state, action) => {
 
 class ConnectedTreeNode extends HTMLElement {
   connectedCallback() {
-    this.name = this.getAttribute('name') || '';
-    this.path = this.getAttribute('path') || DEFAULT_ROOT_PATH;
-    this.depth = parseInt(this.getAttribute('depth') || 0);
-    this.expanded = this.getAttribute('expanded') == 'true' ? true : false;
-    this.isNonenumerable = this.getAttribute('is-nonenumerable') == 'true' ? true : false;
-    this.showNonenumerable = this.getAttribute('show-non-enumerable') == 'true' ? true : false;
-    this.sortObjectKeys = this.getAttribute('sort-object-keys') == 'true' ? true : false;
+    this.name = this.getAttribute("name") || "";
+    this.path = this.getAttribute("path") || DEFAULT_ROOT_PATH;
+    this.depth = parseInt(this.getAttribute("depth") || 0);
+    this.expanded = this.getAttribute("expanded") == "true" ? true : false;
+    this.isNonenumerable =
+      this.getAttribute("is-nonenumerable") == "true" ? true : false;
+    this.showNonenumerable =
+      this.getAttribute("show-non-enumerable") == "true" ? true : false;
+    this.sortObjectKeys =
+      this.getAttribute("sort-object-keys") == "true" ? true : false;
 
-    this._data = (this.getAttribute('data') || 'null');
+    this._data = this.getAttribute("data") || "null";
     const data = parse(this._data);
     this.data = data;
-    this.removeAttribute('data');
+    this.removeAttribute("data");
 
     this.state = {
-      expandedPaths: {}
-    }
+      expandedPaths: {},
+    };
     this.render(data);
 
-
-    let element = this.querySelector('tree-node')
+    let element = this.querySelector("tree-node");
     const handler = (e) => {
       e.stopPropagation();
       e.preventDefault();
-      let p = element.getAttribute('path');
+      let p = element.getAttribute("path");
       this.state.expandedPaths[p] = !this.state.expandedPaths[p];
-      element.expanded = !element.expanded
-      element.setAttribute('expanded', element.expanded);
-      element.querySelector('tree-arrow') && element.querySelector('tree-arrow').setAttribute('expanded', element.expanded);
+      element.expanded = !element.expanded;
+      element.setAttribute("expanded", element.expanded);
+      element.querySelector("tree-arrow") &&
+        element
+          .querySelector("tree-arrow")
+          .setAttribute("expanded", element.expanded);
     };
-    element.removeEventListener('click', handler);
-    element.addEventListener('click', handler);
+    element.removeEventListener("click", handler);
+    element.addEventListener("click", handler);
   }
 
   render(data) {
-    const nodeHasChildNodes = hasChildNodes(data, createIterator(this.showNonenumerable , this.sortObjectKeys));
+    const nodeHasChildNodes = hasChildNodes(
+      data,
+      createIterator(this.showNonenumerable, this.sortObjectKeys)
+    );
     const { expandedPaths } = this.state;
     const expanded = !!expandedPaths[this.path];
 
@@ -79,7 +93,10 @@ class ConnectedTreeNode extends HTMLElement {
 
   renderChildNodes(parentData, parentPath) {
     let childNodes = [];
-    const dataIterator = createIterator(this.showNonenumerable , this.sortObjectKeys);
+    const dataIterator = createIterator(
+      this.showNonenumerable,
+      this.sortObjectKeys
+    );
     for (let item of dataIterator(parentData)) {
       let { name, data, isNonenumerable } = item;
       const key = name;
@@ -91,13 +108,14 @@ class ConnectedTreeNode extends HTMLElement {
           depth='${this.depth + 1}'
           path='${path}'
           should-show-arrow='${isNonenumerable || false}'
-          show-non-enumerable='${this.showNonenumerable ? this.showNonenumerable : isNonenumerable}'
+          show-non-enumerable='${
+            this.showNonenumerable ? this.showNonenumerable : isNonenumerable
+          }'
           sort-object-keys='${this.sortObjectKeys}'
-        ></connected-tree-node>`,
-      );
+        ></connected-tree-node>`);
     }
-    return childNodes.join('');
+    return childNodes.join("");
   }
 }
 
-customElements.define('connected-tree-node', ConnectedTreeNode);
+customElements.define("connected-tree-node", ConnectedTreeNode);
